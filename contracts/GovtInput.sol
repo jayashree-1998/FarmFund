@@ -18,9 +18,9 @@ contract GovtInput{
     uint length;
    
     
-    /*function setAddress(address _address) public{
+    function setAddress(address _address) public{
         rep = Crop(_address);
-    }*/
+    }
      
      function getInvestAddressAndPercentage() public {
           rep.getInvestPercentage();
