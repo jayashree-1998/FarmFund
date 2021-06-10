@@ -16,9 +16,9 @@ contract Crop{
     
     GovtInput gov;
     
-    /*function setAddress(address _address) public{
+    function setAddress(address _address) public{
         gov = GovtInput(_address);
-    }*/
+    }
     
     Request[] public requests; 
     
