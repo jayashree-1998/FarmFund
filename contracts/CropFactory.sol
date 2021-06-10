@@ -22,15 +22,19 @@ contract CropFactory{
 		GovtInput newGovrep = new GovtInput();
 		newCrop.setAddress(address(newGovrep));
 		newGovrep.setAddress(address(newCrop));
-
         farmerContractMapping[msg.sender] = ContractAddresses(address(newCrop),address(newGovrep));
 		farmerAddresses[i] = msg.sender;
+		contractaddresses[i] 
 		i++;
     }
-
-	function getFarmerContractMapping() public view returns(){
-
+    
+	function getFarmerContractMapping() public view returns(ContractAddresses[] memory){
+	   /* ContractAddresses[] memory contrract = new ContractAddresses[](farmerAddresses.length);
+	    for(uint i = 0; i < farmerAddresses.length; i++)
+	    {
+	        ContractAddresses storage contrract = contractaddresses[i];
+	        contrract[i] = contrract;
+	    } */
+	    return contractaddresses;
 	}
-
 }
-
