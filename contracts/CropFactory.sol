@@ -23,8 +23,7 @@ contract CropFactory{
 		newCrop.setAddress(address(newGovrep));
 		newGovrep.setAddress(address(newCrop));
         farmerContractMapping[msg.sender] = ContractAddresses(address(newCrop),address(newGovrep));
-		farmerAddresses[i] = msg.sender;
-		contractaddresses[i] 
+		farmerAddresses[i] = msg.sender; 
 		i++;
     }
     
