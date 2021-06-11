@@ -5,15 +5,16 @@ import Web3 from 'web3';
 // const RequestFactoryABI = RequestFactory.abi
 
 import {abi as GovtABI} from '../built_contracts/GovtInput.json' 
-import {abi as RequestFactoryABI} from '../built_contracts/RequestFactory.json'
+import {abi as CropFactoryABI} from '../built_contracts/CropFactory.json'
 import {abi as CropABI} from '../built_contracts/Crop.json'
 
-const REQUEST_FACTORY_ADDRESS = '0x98F681D872f880a7a18f9891056006967c5241B3'
-const GOVT_ADDRESS = '0x2D0051f4b9fc09CD0d4cB94bBC35aaFF84E7f9cc'
+const CROP_FACTORY_ADDRESS = '0xDA7b1a789a47951Af914558a4e82F6E468946247'
+//const GOVT_ADDRESS = '0x2D0051f4b9fc09CD0d4cB94bBC35aaFF84E7f9cc'
 
+let defaultAccount
 let web3Instance
-let requestFactoryContract
-let govtContract
+let cropFactoryContract
+//let govtContract
 
 export async function initWeb3() {
     if(!window.ethereum) {
@@ -23,35 +24,54 @@ export async function initWeb3() {
     web3Instance = new Web3(window.ethereum)
     let accounts = [];
     try {
+        
         accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        defaultAccount = accounts[0];
     } catch(e) {
         console.error("User DENIED")
     }
     console.log("Found accounts: ", accounts)
-    requestFactoryContract = new web3Instance.eth.Contract(RequestFactoryABI, REQUEST_FACTORY_ADDRESS)
-    govtContract = new web3Instance.eth.Contract(GovtABI, GOVT_ADDRESS)
-    console.log(`Loaded Contracts: Govt (${GOVT_ADDRESS}), Request Factory (${REQUEST_FACTORY_ADDRESS})`)
+    cropFactoryContract = new web3Instance.eth.Contract(CropFactoryABI, CROP_FACTORY_ADDRESS)
+   // govtContract = new web3Instance.eth.Contract(GovtABI, GOVT_ADDRESS)
+    console.log(`Request Factory (${CROP_FACTORY_ADDRESS})`)
+}
+export async function getListing() {
+    return getCropFactoryContract().methods.getFarmerContractMapping().call()
 }
 
-export function getRequestFactoryContract() {
+export async function createFarmer() {
+    return getCropFactoryContract().methods.createCropForFarmer().send({from : defaultAccount})
+}
+
+export async function getContractAddressesForFarmer() {
+    return getCropFactoryContract().methods.getContractsForFarmer().call()
+}
+
+export async function getCropContractForFarmer() {
+    return new web3Instance.eth.Contract(CropABI,(await getContractAddressesForFarmer()).crop)
+}
+
+export async function getGovtContractForFarmer() {
+    return new web3Instance.eth.Contract(GovtABI,(await getContractAddressesForFarmer()).govrep)
+}
+
+export function getCropFactoryContract() {
     if(web3Instance)
-        return requestFactoryContract
+        return cropFactoryContract
     else
         throw new Error('Web3 Not Ready')
 }
 
-export function getGovtContract() {
-    if(web3Instance)
-        return govtContract
-    else
-        throw new Error('Web3 Not Ready')
-}
+//  export function getGovtContract() {
+//     if(web3Instance)
+//         return govtContract
+//     else
+//         throw new Error('Web3 Not Ready')
+// }
 
-export function getCropContract(address) {
-    if(web3Instance)
-        return new web3Instance.eth.Contract(CropABI,address)
-    else
-        throw new Error('Web3 Not Ready')
-}
-
-
+// export function getCropContract() {
+//     if(web3Instance)
+//         return new web3Instance.eth.Contract(CropABI)
+//     else
+//         throw new Error('Web3 Not Ready')
+// } 

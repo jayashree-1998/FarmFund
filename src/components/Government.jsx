@@ -18,6 +18,10 @@ function Government() {
                     </div>
                     <div class="col-lg-5">
                         <p>
+                            Verify a farmer's account.
+                        </p>
+                        <Button onClick={() => push('/goverify')} variant="primary" size="lg">Verify</Button>
+                        <p>
                             Add a return amount for a farmer
                         </p>
                         <Button onClick={() => push('/returnamount')} variant="primary" size="lg">Return Amount</Button>

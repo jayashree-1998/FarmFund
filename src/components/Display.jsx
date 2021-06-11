@@ -4,11 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 function Display()
 {
-
     const { push } = useHistory()
-    onInvest = async () => {
-        
-
     return(
         <div classname="displayrequests">
             <div class="container">
@@ -20,7 +16,7 @@ function Display()
                                 <h5 class="card-title">Amount</h5>
                                 <p class="card-text">Credit Score</p>
                                 <p class="card-text">Days</p>
-                                <Button onClick={this.onInvest} variant="primary" size="lg">Invest</Button>
+                                <Button onClick={() => push('/')} variant="primary" size="lg">Invest</Button>
                             </div>
                         </div>
                     </div>

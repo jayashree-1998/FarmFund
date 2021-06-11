@@ -1,14 +1,9 @@
 const GovtInput = artifacts.require("GovtInput");
 const Crop = artifacts.require("Crop");
-const RequestFactory = artifacts.require("RequestFactory");
+const CropFactory = artifacts.require("CropFactory");
 
 module.exports = async function(deployer) {
-  await deployer.deploy(Crop);
+  await deployer.deploy(Crop,'0x0000000000000000000000000000000000000000');
   await deployer.deploy(GovtInput);
-  await deployer.deploy(RequestFactory);
-
-  const deployedCrop = await Crop.deployed();
-  const deployedGovt = await GovtInput.deployed();
-  await deployedCrop.setAddress(deployedGovt.address)
-  await deployedGovt.setAddress(deployedCrop.address)
+  await deployer.deploy(CropFactory);
 };

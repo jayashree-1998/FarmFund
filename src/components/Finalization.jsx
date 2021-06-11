@@ -13,7 +13,7 @@ function Finalization()
                                 <label for="inputAddres" class="col-sm-2 col-form-label">Address</label>
                                 <input type="text" class="form-control" id="inputAddress" placeholder="Wallet Address" />
                             </div>
-                            <button onClick={this.onFinalize} type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>    
             </div>

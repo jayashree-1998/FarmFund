@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Farmer, Footer, Home, Investor, Government, Display, Verification, Creation, Finalization, GovVerify, ReturnAmt, Pay} from "./components";
+import { Navigation, Farmer, Footer, Home, Investor, Government, Display, Creation, Finalization, GovVerify, ReturnAmt, Pay, Debug} from "./components";
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import {initWeb3} from './ethereum/utils'
 
 function App() {
-  initWeb3()
+  useEffect(() => {initWeb3()}, [])
   return (
     <div className="App">
       <Router>
         <Navigation />
         <Switch>
+          <Route path="/debug">
+            <Debug />
+          </Route>
           <Route path="/farmer">
             <Farmer />
           </Route>
@@ -19,9 +22,6 @@ function App() {
           </Route>
           <Route path="/gov">
             <Government />
-          </Route>
-          <Route path="/verify">
-            <Verification />
           </Route>
           <Route path="/create">
             <Creation />

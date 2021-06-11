@@ -1,20 +1,13 @@
-import React, {useState , Component} from "react";
+import React, {useState} from "react";
 import { Button } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-import {getRequestFactoryContract} from '../ethereum/utils'
+//import {getRequestFactoryContract} from '../ethereum/utils'
 
-//const { push } = useHistory()
-function Farmer(){
+function Farmer() {
     const { push } = useHistory()
-    const createNewInstanceOfContract = async () => {
-    
-    const requestFactoryContract = getRequestFactoryContract()
-    const accounts = await window.ethereum.enable();
-    const account = accounts[0];
-    await requestFactoryContract.methods.createNewRequest().send({ from: account });
-    console.log(account);
-    };
-    createNewInstanceOfContract();
+    //const requestFactoryContract = useState(getRequestFactoryContract())
+
+
     return (
         <div className="farmer">
             <div class="container">
@@ -28,7 +21,7 @@ function Farmer(){
                     </div>
                     <div class="col-lg-5">
                         <p>
-                             Create a Request!
+                            Create a Request!
                         </p>
                         <Button onClick={() => push('/create')} variant="primary" size="lg">Create</Button>
                         <p>
@@ -42,6 +35,5 @@ function Farmer(){
         </div>
     );
 }
-
 
 export default Farmer;
