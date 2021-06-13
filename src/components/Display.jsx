@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 import * as utils from "../ethereum/utils"
 import { useHistory } from 'react-router-dom'
 
-function Display()
-{
+function Display() {
     const { push } = useHistory()
     const [investables, setInvestables] = useState([])
 
@@ -15,17 +14,17 @@ function Display()
         const entityPromiseMap = entities.map(async (entity) => {
             let cropAddress = entity.crop;
             let cropContract = await utils.getCropContractForAddress(cropAddress);
-            let reputation =  await cropContract.methods.reputation.call({from: utils.getDefaultAccount()}).call({from: utils.getDefaultAccount()})
-            let requesNo =  await cropContract.methods.requestNo.call({from: utils.getDefaultAccount()}).call({from: utils.getDefaultAccount()})
+            let reputation = await cropContract.methods.reputation.call({ from: utils.getDefaultAccount() }).call({ from: utils.getDefaultAccount() })
+            let requesNo = await cropContract.methods.requestNo.call({ from: utils.getDefaultAccount() }).call({ from: utils.getDefaultAccount() })
 
-            console.log("requests",requesNo);
-            let summary = await cropContract.methods.requests(+requesNo - 1).call({from: utils.getDefaultAccount()})
+            console.log("requests", requesNo);
+            let summary = await cropContract.methods.requests(+requesNo - 1).call({ from: utils.getDefaultAccount() })
             const onInvest = async () => {
                 //const weiAmt = utils.getWeb3().toWei(summary.amount,"ether")
-                let result = await cropContract.methods.investment().send({from: utils.getDefaultAccount(), value: 50*10**18})
+                let result = await cropContract.methods.investment().send({ from: utils.getDefaultAccount(), value: 1 * 10 ** 18 })
                 console.log(result)
             }
-            return {...summary,reputation,onInvest}
+            return { ...summary, reputation, onInvest }
         })
         const resolvedEntities = await Promise.all(entityPromiseMap)
         // const entityObjects = resolvedEntities.map((entityArray)=> {
@@ -38,10 +37,10 @@ function Display()
     }
 
     useEffect(() => {
-        fetchAndPopulate()     
-        
+        fetchAndPopulate()
+
     }, [])
- 
+
     // const onInvest = async () => {
     //     await utils.initWeb3()
     //     let entities = await utils.getListing()
@@ -51,14 +50,14 @@ function Display()
     //    await cropContract.methods.investment().call({from: utils.getDefaultAccount()})
     // }
 
-    return(
+    return (
         <div classname="displayrequests">
             <div class="container">
                 <div class="row align-items-center my-5">
                     <div class="col-lg-7">
 
                         {
-                            investables.map((investable, idx) => 
+                            investables.map((investable, idx) =>
                                 <div key={idx} class="card">
                                     <h5 class="card-header">{investable.description}</h5>
                                     <div class="card-body">
@@ -68,11 +67,11 @@ function Display()
                                         <Button onClick={investable.onInvest} variant="primary" size="lg">Invest</Button>
                                     </div>
                                 </div>
-                            )                    
-                        }                        
+                            )
+                        }
                     </div>
                 </div>
-            </div>    
+            </div>
         </div>
 
     );

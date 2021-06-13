@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Farmer, Footer, Home, Investor, Government, Display, Creation, Finalization, GovVerify, ReturnAmt, Pay, Debug} from "./components";
+import { Navigation, Farmer, Footer, Home, Investor, Government, Display, Creation, Finalization, ReturnAmt, Pay, Debug} from "./components";
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import {initWeb3} from './ethereum/utils'
 
@@ -28,9 +28,6 @@ function App() {
           </Route>
           <Route path="/finalize">
             <Finalization />
-          </Route>
-          <Route path="/goverify">
-            <GovVerify />
           </Route>
           <Route path="/returnamount">
             <ReturnAmt />
