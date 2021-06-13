@@ -29,7 +29,8 @@ contract GovtInput{
         length = _returnPercent.length;
         rep.resetInvestedPercentAndInvestorsAddress();
      }
-     function payInvestors() public payable {
+     function payInvestors() public {
+         getInvestAddressAndPercentage();
          uint temp;
          uint i;
          for(i = 0; i < _returnPercent.length; i++)

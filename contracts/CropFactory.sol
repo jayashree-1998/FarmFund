@@ -18,6 +18,11 @@ contract CropFactory{
         return(farmerContractMapping[msg.sender]);
     }
 
+	 function getContractsForFarmerAtAddress(address farmerAddr) public view returns(ContractAddresses memory){
+        return(farmerContractMapping[farmerAddr]);
+    }
+
+
     function createCropForFarmer() public payable{
 		Crop newCrop = new Crop(msg.sender);
 		GovtInput newGovrep = new GovtInput();

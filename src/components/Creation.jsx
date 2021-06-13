@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 function Creation() {
     const { register, handleSubmit } = useForm();
     const onSubmitHook = async (data) => {
-
         try {
             let cropContract = await getCropContractForFarmer();
-            await cropContract.methods.createRequest(data.title, data.amount, data.days, data.address).send({ from: getDefaultAccount() })
-        } catch (e) {
+            await cropContract.methods.createRequest(data.title, data.amount, data.days).send({ from: getDefaultAccount() })
+            } catch (e) {
             console.error(e)
             if (e.code === 4001) {
                 alert(`User denied Signing the Transaction`);
@@ -33,15 +32,11 @@ function Creation() {
                                 </div>
                                 <div class="form-group row">
                                     <label for="Amount" class="col-sm-2 col-form-label">Amount</label>
-                                    <input type="text" class="form-control" id="Amount" placeholder="Amount in GWEI" {...register('amount')} />
+                                    <input type="text" class="form-control" id="Amount" placeholder="Amount in Ether" {...register('amount')} />
                                 </div>
                                 <div class="form-group row">
                                     <label for="Days" class="col-sm-2 col-form-label">Days</label>
                                     <input type="text" class="form-control" id="Days" placeholder="Number of Days" {...register('days')} />
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputAddres" class="col-sm-2 col-form-label">Address</label>
-                                    <input type="text" class="form-control" id="inputAddress" placeholder="Wallet Address" {...register('address')} />
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>

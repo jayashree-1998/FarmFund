@@ -1,23 +1,30 @@
-import React from 'react';
-import { getGovtContractForFarmer, getDefaultAccount } from '../ethereum/utils';
+import React, { useEffect } from 'react';
+import { getDefaultAccount } from '../ethereum/utils';
 import { useForm } from "react-hook-form";
+import * as utils from '../ethereum/utils';
 
 function ReturnAmt() {
     const { register, handleSubmit } = useForm();
-    const onSubmitHook = async (data) => {
-            let cropContract = await getGovtContractForFarmer();
-            await cropContract.methods.createRequest(data.amount).send({ from: getDefaultAccount() })
+    const onVisitReturnAmt = async (data) => {
+        await utils.initWeb3()
+        let govtContract = await utils.getGovtContractForFarmer(data.farmerAddr)
+        let result = await govtContract.methods.getRetAmt(+(data.amount - 1)).send({ from: getDefaultAccount(), value: +(data.amount * 10 ** 18) })
+        console.log(result);
     }
+    
     return (
         <div classname="returnamount">
-            <form onSubmit={handleSubmit(onSubmitHook)}>
+            <form onSubmit={handleSubmit(onVisitReturnAmt)}>
                 <div class="form group">
                     <div class="container">
-                        <div class="row align-items-center my-5">
+                        <div class="col align-items-center my-5">
                             <div class="form-group row">
-                                <p>Enter the return amount</p>
                                 <label for="Amount" class="col-sm-2 col-form-label">Amount</label>
-                                <input type="text" class="form-control" id="Amount" placeholder="Amount in GWEI" {...register('amount')} />
+                                <input type="text" class="form-control" id="Amount" placeholder="Amount in Ether" {...register('amount')} />
+                            </div>
+                            <div class="form-group row">
+                                <label for="Amount" class="col-sm-2 col-form-label">Farmer Address</label>
+                                <input type="text" class="form-control" id="Farmer" placeholder="Address of farmer" {...register('farmerAddr')} />
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

@@ -8,7 +8,6 @@ contract Crop{
         string description;
         uint amount;
         uint no_of_days;
-        address payable receiver;
         uint expirydate;
         uint investorsCount;
         bool complete;
@@ -71,7 +70,7 @@ contract Crop{
             );
     }
 
-    function createRequest(string memory description, uint amount, uint no_of_days, address payable receiver) public authorization{
+    function createRequest(string memory description, uint amount, uint no_of_days) public authorization{
         reputation = gov.setRep();
         if(requestNo > 0){
         returned = gov._returned();
@@ -86,7 +85,6 @@ contract Crop{
             description : description,
             amount : amount,
             no_of_days : no_of_days,
-            receiver : receiver,
             expirydate : block.timestamp + (86400 * no_of_days),
             investorsCount : 0,
             complete : false
@@ -97,10 +95,10 @@ contract Crop{
         returned = false;
     }
 
-    function finalizeRequest() public payable authorization{
+    function finalizeRequest() public authorization{
         Request storage request = requests[requestNo - 1];
         require(!request.complete);
-        request.receiver.transfer(address(this).balance); // once farmer gets the amount he cannont get more investors
+        payable(farmer).transfer(address(this).balance); // once farmer gets the amount he cannont get more investors
         request.complete = true;
     }
     
