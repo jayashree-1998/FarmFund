@@ -8,7 +8,7 @@ import {abi as GovtABI} from '../built_contracts/GovtInput.json'
 import {abi as CropFactoryABI} from '../built_contracts/CropFactory.json'
 import {abi as CropABI} from '../built_contracts/Crop.json'
 
-const CROP_FACTORY_ADDRESS = '0xDA7b1a789a47951Af914558a4e82F6E468946247'
+const CROP_FACTORY_ADDRESS = '0x76A6C92887CccE29b579427ceE2be5FDCb1f83A7'
 //const GOVT_ADDRESS = '0x2D0051f4b9fc09CD0d4cB94bBC35aaFF84E7f9cc'
 
 let defaultAccount
@@ -16,6 +16,8 @@ let web3Instance
 let cropFactoryContract
 //let govtContract
 
+// TODO: DO NOT USE IN FINAL CODE, CREATE HIGHER ORDER COMPONENT OR CONTEXT WRAPPER TO GET WEB3
+// DO NOT REPAT initWeb3 calls in each component
 export async function initWeb3() {
     if(!window.ethereum) {
         console.error("We are not in an web3 supported browser. Is metamask loaded?")
@@ -35,6 +37,15 @@ export async function initWeb3() {
    // govtContract = new web3Instance.eth.Contract(GovtABI, GOVT_ADDRESS)
     console.log(`Request Factory (${CROP_FACTORY_ADDRESS})`)
 }
+
+export function getWeb3() {
+    return web3Instance;
+}
+
+export function getDefaultAccount() {
+    return defaultAccount;
+}
+
 export async function getListing() {
     return getCropFactoryContract().methods.getFarmerContractMapping().call()
 }
@@ -44,11 +55,18 @@ export async function createFarmer() {
 }
 
 export async function getContractAddressesForFarmer() {
-    return getCropFactoryContract().methods.getContractsForFarmer().call()
+    console.debug("Getting Contract addresses")
+    return getCropFactoryContract().methods.getContractsForFarmer().call({from : defaultAccount})
 }
 
 export async function getCropContractForFarmer() {
-    return new web3Instance.eth.Contract(CropABI,(await getContractAddressesForFarmer()).crop)
+    let contractAddresses = await getContractAddressesForFarmer()
+    console.debug("Addreses", contractAddresses, contractAddresses.crop);
+    return new web3Instance.eth.Contract(CropABI,contractAddresses.crop)
+}
+
+export async function getCropContractForAddress(contractAddress) {
+    return new web3Instance.eth.Contract(CropABI,contractAddress)
 }
 
 export async function getGovtContractForFarmer() {

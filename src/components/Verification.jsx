@@ -17,7 +17,7 @@ class Verification extends Component{
     }
 
     accountaddress = async () => {
-        //let cropContract = getCropContract();
+        let cropContract = getCropContract();
         
         const accounts = await window.ethereum.enable();
         const account = accounts[0];
