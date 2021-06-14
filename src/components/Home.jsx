@@ -8,15 +8,13 @@ function Home() {
                     <div class="col-lg-7">
                         <img
                             class="img-fluid rounded mb-4 mb-lg-0"
-                            src="https://images.indianexpress.com/2020/05/farmers-759.jpg?w=600"
+                            src="https://www.pinclipart.com/picdir/big/548-5481811_agriculture-clipart-agriculture-background-farming-clipart-png-transparent.png"
                             alt=""
                         />
                     </div>
                     <div class="col-lg-5">
-                        <h1 class="font-weight-light">Home</h1>
-                        <p>
-                            A decentralized app to invest in farmers!
-            </p>
+                        <h1 class="font-weight-light">CrowdFunding for Farmers!</h1>
+                        <h2 class="font-weight-light">Join today!</h2>
                     </div>
                 </div>
             </div>

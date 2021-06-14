@@ -12,7 +12,7 @@ function Government() {
                     <div class="col-lg-7">
                         <img
                             class="img-fluid rounded mb-4 mb-lg-0"
-                            src="http://placehold.it/900x400"
+                            src="https://www.pngkey.com/png/full/244-2449850_india-ministry-of-agriculture-farmers-welfare-president-of.png"
                             alt=""
                         />
                     </div>

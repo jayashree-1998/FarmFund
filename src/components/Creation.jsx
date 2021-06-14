@@ -1,13 +1,16 @@
 import { getCropContractForFarmer, getDefaultAccount } from '../ethereum/utils';
 import { useForm } from "react-hook-form";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 function Creation() {
+    const notify = () => toast("Request Created", { position: toast.POSITION.BOTTOM_LEFT });
     const { register, handleSubmit } = useForm();
     const onSubmitHook = async (data) => {
         try {
             let cropContract = await getCropContractForFarmer();
             await cropContract.methods.createRequest(data.title, data.amount, data.days).send({ from: getDefaultAccount() })
-            } catch (e) {
+        } catch (e) {
             console.error(e)
             if (e.code === 4001) {
                 alert(`User denied Signing the Transaction`);
@@ -38,7 +41,7 @@ function Creation() {
                                     <label for="Days" class="col-sm-2 col-form-label">Days</label>
                                     <input type="text" class="form-control" id="Days" placeholder="Number of Days" {...register('days')} />
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button onClick = {notify} type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>

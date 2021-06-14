@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 import { getDefaultAccount } from '../ethereum/utils';
 import { useForm } from "react-hook-form";
 import * as utils from '../ethereum/utils';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 function ReturnAmt() {
+    const notify = () => toast("Amount Added", { position: toast.POSITION.BOTTOM_LEFT });
     const { register, handleSubmit } = useForm();
     const onVisitReturnAmt = async (data) => {
         await utils.initWeb3()
@@ -11,7 +15,7 @@ function ReturnAmt() {
         let result = await govtContract.methods.getRetAmt(+(data.amount - 1)).send({ from: getDefaultAccount(), value: +(data.amount * 10 ** 18) })
         console.log(result);
     }
-    
+
     return (
         <div classname="returnamount">
             <form onSubmit={handleSubmit(onVisitReturnAmt)}>
@@ -27,7 +31,7 @@ function ReturnAmt() {
                                 <input type="text" class="form-control" id="Farmer" placeholder="Address of farmer" {...register('farmerAddr')} />
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button onClick = {notify}type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
 
